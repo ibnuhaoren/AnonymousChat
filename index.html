@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Anonymous</title>
+    <!-- Style -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- chat box-->
+    <div class="chat-box">
+        <h1>Anonymous Chat</h1>
+        <input type="text" id="nameInput" placeholder="Masukkan namamu disini...">
+        <input type="text" id="messageInput" placeholder="Ketik pesanmu disini...">
+        <div id="chatArea" class="chat-area"></div>
+        <input type="password" id="adminPassword" placeholder="password admin...">
+        <button onclick="clearchat()">Bersihkan Chat</button>
+        <button onclick ="sendMessage()">Kirim</button>
+    </div> 
+    <audio id="notifSound" src="Tri tone.mp3" preload="auto"></audio>
+
+
+    <!-- script -->
+     <script src="script.js"></script>
+      <script type="module" src="script.js"></script>
+
+      <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+  import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBnpCjrKuGcAkuIuza189PtiOr5c7KnTwM",
+    authDomain: "anonymous-chat-ibnu.firebaseapp.com",
+    databaseURL: "https://anonymous-chat-ibnu-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "anonymous-chat-ibnu",
+    storageBucket: "anonymous-chat-ibnu.firebasestorage.app",
+    messagingSenderId: "1002473606963",
+    appId: "1:1002473606963:web:593f2eef1e6d2476e0f846",
+    measurementId: "G-VBQF8NKPJB"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const chatRef = ref(db, "chats");
+
+  // ⏩ Fungsi kirim pesan
+  document.querySelector("button").addEventListener("click", () => {
+    const name = document.getElementById("nameInput").value.trim();
+    const message = document.getElementById("messageInput").value.trim();
+
+    if (!name || !message) {
+      alert("Nama dan pesan jangan dikosongin!");
+      return;
+    }
+
+    push(chatRef, {
+      name: name,
+      message: message
+    });
+
+    document.getElementById("messageInput").value = "";
+  });
+
+  // 🔁 Tampilkan pesan real-time
+  onChildAdded(chatRef, (snapshot) => {
+    const data = snapshot.val();
+    const chatArea = document.getElementById("chatArea");
+
+    const chatBubble = document.createElement("div");
+    chatBubble.innerText = `${data.name}: ${data.message}`;
+    chatBubble.style.marginBottom = "10px";
+    chatArea.appendChild(chatBubble);
+    chatArea.scrollTop = chatArea.scrollHeight;
+  });
+</script>
+</body>
+</html>

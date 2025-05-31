@@ -1,0 +1,53 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family:monospace;
+    background:darkkhaki;
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    padding:0;
+    margin: 0;
+}
+
+.chat-box {
+    width: 90%;
+    max-width: 400px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 0 10px gray;
+    padding: 20px;
+}
+
+.chat-box h1 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+
+input[type="text"], button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    border: 5px solid moccasin;
+}
+
+button:hover {
+    background: gainsboro;
+}
+
+.chat-area {
+    width: 100%;
+    height: 300px;
+    background-color: white;
+    overflow-y: auto;
+    padding: 10px;
+    border: 5px solid moccasin;
+    border-radius: 6px;
+    resize: none;
+}
